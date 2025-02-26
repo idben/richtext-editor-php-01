@@ -2,8 +2,8 @@ const editor = document.querySelector("#editor");
 const htmlView = document.querySelector("#htmlView");
 const headingSelect = document.querySelector("#headingSelect");
 const fontSizeSelect = document.querySelector("#fontSizeSelect");
-const colorSelect = document.querySelector("#colorSelect");
 const toggleViewBtn = document.querySelector("#toggleView");
+const colorSelect = document.querySelector("#colorSelect");
 let isHtmlView = false;
 
 let styleSheet = document.createElement("style");
@@ -29,7 +29,7 @@ function getParentTag(range) {
 function getEnclosingSpan(range) {
   let node = range.commonAncestorContainer;
   while (node && node !== editor) {
-    if (node.tagName === "SPAN") {
+    if (node.tagName === "SPAN" && node.className.match(/fs-\d+/)) {
       return node;
     }
     node = node.parentNode;
@@ -47,6 +47,38 @@ function isPartiallyInsideSpan(range) {
   return (startNode.closest("span") || endNode.closest("span"));
 }
 
+headingSelect.addEventListener("change", function () {
+  let tag = this.value;
+  if (!tag) return;
+
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+  const range = selection.getRangeAt(0);
+  const selectedText = range.toString().trim();
+  if (selectedText === "") return;
+
+  let parentTag = getParentTag(range);
+
+  if (parentTag && parentTag.tagName.toLowerCase() === tag) {
+    let textNode = document.createTextNode(parentTag.textContent);
+    parentTag.replaceWith(textNode);
+    this.value = "";
+    return;
+  }
+
+  if (parentTag) {
+    alert("不能對部分標籤文字增加新標籤，請選取完整標籤範圍");
+    this.value = "";
+    return;
+  }
+
+  const newElement = document.createElement(tag);
+  newElement.textContent = selectedText;
+  range.deleteContents();
+  range.insertNode(newElement);
+  this.value = "";
+});
+
 fontSizeSelect.addEventListener("change", function () {
   let sizeClass = this.value;
   if (!sizeClass) return;
@@ -57,11 +89,12 @@ fontSizeSelect.addEventListener("change", function () {
   const selectedText = range.toString().trim();
   if (selectedText === "") return;
 
+  let parentTag = getParentTag(range);
   let enclosingSpan = getEnclosingSpan(range);
 
   if (enclosingSpan && enclosingSpan.classList.contains(sizeClass)) {
-    enclosingSpan.classList.remove(sizeClass);
-    if (!enclosingSpan.classList.length) enclosingSpan.replaceWith(...enclosingSpan.childNodes);
+    let textNode = document.createTextNode(enclosingSpan.textContent);
+    enclosingSpan.replaceWith(textNode);
     this.value = "";
     return;
   }
@@ -113,6 +146,7 @@ colorSelect.addEventListener("input", function () {
 });
 
 toggleViewBtn.addEventListener("click", function () {
+  removeResizeHandles();
   isHtmlView = !isHtmlView;
   if (isHtmlView) {
     htmlView.textContent = editor.innerHTML;
@@ -123,5 +157,4 @@ toggleViewBtn.addEventListener("click", function () {
     editor.style.display = "block";
     htmlView.style.display = "none";
   }
-  removeResizeHandles();
 });
