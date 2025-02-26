@@ -1,0 +1,104 @@
+html{
+  height: 100%;
+  min-height: 100%;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  height: 100%;
+  min-height: 100%;
+}
+.controls{
+  display: flex;
+  .ms-auto{
+    margin-left: auto;
+  }
+}
+#editor {
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: calc(100% - 120px);
+  margin-top: 10px;
+  outline: none;
+
+}
+select, button {
+  margin: 5px;
+  padding: 5px;
+  font-size: 14px;
+}
+input[type="color"]{
+  font-size: 14px;
+}
+.colorSelectLabel{
+  align-content: center;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+pre {
+  background: #f4f4f4;
+  padding: 10px;
+  border: 1px solid #ddd;
+  white-space: pre-wrap;
+}
+
+#fileInput{
+  display: none;
+}
+
+.resize-handle {
+  width: 10px;
+  height: 10px;
+  background: #007bff;
+  position: absolute;
+  border-radius: 50%;
+  cursor: nwse-resize;
+
+  .top-left {
+    top: -5px;
+    left: -5px;
+    cursor: nwse-resize;
+  }
+
+  .top-right {
+    top: -5px;
+    right: -5px;
+    cursor: nesw-resize;
+  }
+
+  .bottom-left {
+    bottom: -5px;
+    left: -5px;
+    cursor: nesw-resize;
+  }
+
+  .bottom-right {
+    bottom: -5px;
+    right: -5px;
+    cursor: nwse-resize;
+  }
+}
+
+.toolbar {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+  button {
+    background: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+  
+  button:hover {
+    background: #ddd;
+  }
+}

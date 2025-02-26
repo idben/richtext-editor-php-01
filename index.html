@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <title>ContentEditable 標題與字級調整</title>
+</head>
+<body>
+  <div class="controls">
+    <select id="headingSelect">
+      <option value="">選擇標題</option>
+      <option value="h1">H1</option>
+      <option value="h2">H2</option>
+      <option value="h3">H3</option>
+      <option value="h4">H4</option>
+      <option value="h5">H5</option>
+    </select>
+  
+    <select id="fontSizeSelect">
+      <option value="">選擇字級</option>
+    </select>
+
+    <label class="colorSelectLabel">
+      選擇顏色
+      <input type="color" id="colorSelect" value="#000000">
+    </label>
+
+    <button id="btnUpload">上傳圖片</button>
+  
+    <button id="toggleView" class="ms-auto">切換 HTML / 視覺編輯</button>
+  </div>
+
+
+  <div id="editor" contenteditable="true">
+    這裡是可編輯的內容，選取部分文字後可以選擇標題格式或調整字級。
+  </div>
+  
+
+  <pre id="htmlView" contenteditable="true" style="display: none;"></pre>
+  <input type="file" id="fileInput" accept="image/*">
+  <script src="./main.js"></script>
+  <script src="./upload.js"></script>
+  <script src="./resizeable.js"></script>
+</body>
+</html>
